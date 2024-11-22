@@ -1,16 +1,16 @@
 name: 检查链接有效性
 
 on:
+  schedule: # 夜间执行
+    - cron: '0 0 * * *'
   workflow_dispatch: # 手动执行
   pull_request: # PR执行
-    branches:
-      - main
   push: # Push到main执行
     branches:
       - main
 
 jobs:
-  check_url_visit:
+  check-url:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,14 +18,14 @@ jobs:
       uses: actions/checkout@v4
 
     - name: 设置 Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.x'
 
     - name: 安装依赖
       run: |
         python -m pip install --upgrade pip
-        pip install requests
+        pip install -r .action_scripts/Python/requirements.txt
 
     - name: 检查链接有效性
-      run: python ./.action_scripts/link_checker.py
+      run: python ./.action_scripts/Python/link_checker.py
