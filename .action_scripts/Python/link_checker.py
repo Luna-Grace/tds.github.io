@@ -4,7 +4,7 @@ import sys
 import requests
 
 DIRECTORY = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-IGNORE_FOLDERS = ['music_games'] # 忽略的文件夹
+IGNORE_FOLDERS = ['旧页面与旧文档'] # 忽略的文件夹
 IGNORE_FILES = ['Duck Parkour.html'] # 忽略的文件
 IGNORE_URLS = [
     # 常时
