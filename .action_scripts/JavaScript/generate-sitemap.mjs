@@ -14,14 +14,27 @@ try {
 
   // 扫描目录并生成 URL 列表
   function scanDirectory(dir) {
+    // 定义一个忽略的文件路径列表，放在函数内部
+    const ignorePatterns = [
+      '旧页面与旧文档',
+    ];
+
     const files = readdirSync(dir);
     files.forEach(file => {
       const fullPath = path.join(dir, file);
       const stat = statSync(fullPath);
+
+      // 如果是目录，递归扫描
       if (stat.isDirectory()) {
         scanDirectory(fullPath);
       } else if (file.endsWith('.html')) {
         const relativePath = path.relative(repoRoot, fullPath).replace(/\\/g, '/');
+
+        // 如果当前路径在忽略列表中，则跳过
+        if (ignorePatterns.some(pattern => relativePath.includes(pattern))) {
+          return; // 跳过此文件
+        }
+
         const encodedPath = encodeURIComponent(relativePath).replace(/%2F/g, '/'); // 对路径进行编码并替换%2F为/
         const fullUrl = `${repoUrl}/${encodedPath}`;
         urls.add(fullUrl);
@@ -44,9 +57,9 @@ try {
 
   // 生成 URL 列表
   urls.forEach(url => {
-    sitemap += `<url>\n`;
-    sitemap += `  <loc>${url}</loc>\n`;
-    sitemap += `</url>\n`;
+    sitemap += `  <url>\n`;
+    sitemap += `    <loc>${url}</loc>\n`;
+    sitemap += `  </url>\n`;
   });
 
   sitemap += `</urlset>\n`;
