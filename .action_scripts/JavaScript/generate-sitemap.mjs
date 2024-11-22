@@ -8,7 +8,7 @@ const getScriptDir = () => path.dirname(fileURLToPath(import.meta.url));
 try {
   const scriptDir = getScriptDir(); // 直接使用简化函数获取脚本目录
   const repoRoot = path.join(scriptDir, '..', '..'); // 当前目录向上两级，得到项目根目录
-  const repoUrl = 'https://duckduckstudio.github.io/yazicbs.github.io';
+  const repoUrl = 'https://luna-grace.github.io/tds.github.io';
 
   const urls = new Set();
 
